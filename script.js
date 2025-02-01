@@ -12,14 +12,12 @@ class RadarChart extends HTMLElement {
 	#observer;
 	#dimensions;
 	#items;
-	#count;
 	#steps;
 
 	constructor() {
 		super();
 
 		this.#steps = signal(4);
-		this.#count = signal(0);
 		this.#items = signal([]);
 		this.#dimensions = signal([]);
 		this.#internals = this.attachInternals();
@@ -56,31 +54,29 @@ class RadarChart extends HTMLElement {
 						}
 
 						.dimension {
-							transform: rotateZ(
-								calc(((360deg / var(--dim-count, 5)) * var(--dim-i, 0)) + 90deg)
-							);
+						}
+
+						.label {
+							font-family: inherit;
+							stroke: none;
+							fill: currentColor;
+							position: relative;
+							z-index: 2;
+							text-anchor: middle;
+							dominant-baseline: middle;
 						}
 					}
 				</style>
 				${svg`
 					<svg
-						width="200"
-						height="200"
-						viewBox="-100 -100 200 200"
+						width="250"
+						height="250"
+						viewBox="-125 -125 250 250"
 						xmlns="http://www.w3.org/2000/svg"
 						class="radar-chart"
 						style=${`--dim-count: ${this.#dimensions.value.length}`}
 					>
 						<circle class="frame" cx="0" cy="0" r="99" />
-						${this.#dimensions.value.map(
-							(dim, i) => svg`
-							<polyline
-								points="0,0 0,-100"
-								class="dimension"
-								style=${`--dim-i: ${i}`}
-							/>
-						`
-						)}
 						${Array.from({ length: this.#steps.value }).map(
 							(u, i) => svg`
 							<polygon class="guide" ?outer=${
@@ -93,17 +89,24 @@ class RadarChart extends HTMLElement {
 							<polygon class="layer" points="${this.#generateLayerPath(item.data)}" />
 						`
 						)}
+						${this.#dimensions.value.map(
+							(dim, i) => svg`
+							<g>
+							<title>${dim.label}</title>
+								<polyline
+									points=${"0,0 " + this.#calculateCoords(100, i)}
+									class="dimension"
+									style=${`--dim-i: ${i}`}
+								/>
+								<text x="${this.#calculateX(110, i)}" y="${this.#calculateY(
+								110,
+								i
+							)}" class="label">${dim.label}</text>
+							</g>
+						`
+						)}
 					</svg>
 				`}
-				<span>${this.#count.value}</span>
-				<button
-					onclick=${() => {
-						console.log("click");
-						this.#count.value++;
-					}}
-				>
-					Increment
-				</button>
 			`
 		);
 	}
@@ -147,6 +150,14 @@ class RadarChart extends HTMLElement {
 		const y = Math.sin(angle * (Math.PI / 180)) * value;
 
 		return [x, y];
+	}
+
+	#calculateX(value, dimIndex) {
+		return this.#calculateCoords(value, dimIndex)[0];
+	}
+
+	#calculateY(value, dimIndex) {
+		return this.#calculateCoords(value, dimIndex)[1];
 	}
 
 	#generateLayerPath(data) {
