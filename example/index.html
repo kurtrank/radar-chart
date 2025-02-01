@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<script src="../script.js" type="module"></script>
+		<title>Title</title>
+	</head>
+	<body>
+		<h1>Heading</h1>
+		<p><code>const radius = point.value</code></p>
+		<p><code>const angle = 360 / dimensions</code></p>
+		<p><code>const y = Math.sin(angle*(Math.PI/180))*radius</code></p>
+		<p><code>const x = Math.cos(angle*(Math.PI/180))*radius</code></p>
+		<radar-chart
+			steps="6"
+			dimensions="r:Range,p:Power,c:Condi,s:Support,m:Mobility"
+		>
+			<radar-chart-item
+				label="Axe"
+				data-r="100"
+				data-p="30"
+				data-c="45"
+				data-s="10"
+				data-m="40"
+			></radar-chart-item>
+			<radar-chart-item
+				label="Shield"
+				data-r="60"
+				data-p="70"
+				data-c="55"
+				data-s="40"
+				data-m="40"
+			></radar-chart-item>
+			<!-- <radar-chart-item label="" data-r="1.2" data-p="4"></radar-chart-item> -->
+		</radar-chart>
+		<!-- <svg
+			width="200"
+			height="200"
+			viewBox="-100 -100 200 200"
+			xmlns="http://www.w3.org/2000/svg"
+			class="radar-chart"
+			style="--dim-count: 5"
+		>
+			<circle cx="0" cy="0" r="99" />
+			<polyline
+				points="0,0 0,-100"
+				class="guide dimension"
+				style="--dim-i: 0"
+			/>
+			<polyline
+				points="0,0 0,-100"
+				class="guide dimension"
+				style="--dim-i: 1"
+			/>
+			<polyline
+				points="0,0 0,-100"
+				class="guide dimension"
+				style="--dim-i: 2"
+			/>
+			<polyline
+				points="0,0 0,-100"
+				class="guide dimension"
+				style="--dim-i: 3"
+			/>
+			<polyline
+				points="0,0 0,-100"
+				class="guide dimension"
+				style="--dim-i: 4"
+			/>
+			<polygon points="100,0 24.7,76.1 -20,-40" />
+		</svg> -->
+	</body>
+</html>
