@@ -9,13 +9,15 @@ html {
 	box-sizing: inherit;
 }
 
-.radar-chart {
-	stroke: black;
-	stroke-width: 2;
-	fill: none;
-	.dimension {
-		transform: rotateZ(
-			calc(((360deg / var(--dim-count, 5)) * var(--dim-i, 0)) + 90deg)
-		);
-	}
+body {
+	/* background: #222;
+	color: #eee;
+	--rc-accent: orange; */
+}
+
+figure {
+}
+
+radar-chart {
+	max-width: 100%;
 }
