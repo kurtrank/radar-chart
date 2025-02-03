@@ -136,7 +136,9 @@ class RadarChart extends HTMLElement {
 						)}
 						${this.#items.value.map(
 							(item, i) => svg`
-							<g class=${`layer${item.disabled ? " disabled" : ""}`}>
+							<g class=${`layer${item.disabled ? " disabled" : ""}`} style=${
+								item.color ? `--rc-accent: ${item.color};` : null
+							}>
 								<title>${item.label}</title>
 								<polygon points="${this.#generateLayerPath(item.data)}" />
 							</g>
@@ -243,6 +245,7 @@ class RadarChart extends HTMLElement {
 			const label = item.getAttribute("label");
 			const data = {};
 			const disabled = item.hasAttribute("disabled");
+			const color = item.getAttribute("color");
 
 			this.#dimensions.value.forEach((dim) => {
 				const _val = item.dataset[dim.id] ?? 0;
@@ -253,6 +256,7 @@ class RadarChart extends HTMLElement {
 				disabled: disabled,
 				label: label ? label : "Untitled",
 				data,
+				color,
 			};
 		});
 	}
